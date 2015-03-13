@@ -8,10 +8,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class RepositoryFactory {
 
-    private static ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+    private static ApplicationContext context = new ClassPathXmlApplicationContext("spring-repository-context.xml");
 
     public static final <T> T getRepository(Class<T> repository){
-        T r =  context.getBean(repository);
         return  context.getBean(repository);
     }
 }

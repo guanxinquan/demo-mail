@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       ">
+
+       <bean id="connectionFactory"
+             class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+              <constructor-arg value="localhost"/>
+              <property name="username" value="guest"/>
+              <property name="password" value="guest"/>
+              <property name="channelCacheSize" value="25"/>
+       </bean>
+
+    <rabbit:template id="template" connection-factory="connectionFactory" retry-template="retryTemplate" message-converter="jsonMessageConverter"/>
+
+    <bean id="retryTemplate" class="org.springframework.retry.support.RetryTemplate">
+        <property name="backOffPolicy">
+            <bean class="org.springframework.retry.backoff.ExponentialBackOffPolicy">
+                <property name="initialInterval" value="500" />
+                <property name="multiplier" value="10.0" />
+                <property name="maxInterval" value="10000" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="jsonMessageConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"/>
+
+
+    <bean id="mailMqImpl" class="com.example.mail.mq.MailMqImpl">
+        <property name="amqpTemplate" ref="template"/>
+        <property name="queueName" value="mail-queue"/>
+        <property name="exchangeName" value="email-exchange"/>
+        <property name="connectionFactory" ref="connectionFactory"/>
+    </bean>
+
+</beans>

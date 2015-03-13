@@ -1,5 +1,7 @@
 package com.example.mail.repository.model;
 
+import java.util.Date;
+
 /**
  * Created by guanxinquan on 15-3-11.
  */
@@ -10,7 +12,25 @@ public class Mail {
 
     private Integer mailboxId;
 
-    private String content;
+    private String UIDL;
+
+    private Date createDate;
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getUIDL() {
+        return UIDL;
+    }
+
+    public void setUIDL(String UIDL) {
+        this.UIDL = UIDL;
+    }
 
     public Integer getId() {
         return id;
@@ -36,11 +56,4 @@ public class Mail {
         this.mailboxId = mailboxId;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

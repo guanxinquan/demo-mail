@@ -7,10 +7,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>demo-smtp</artifactId>
+    <artifactId>demo-transfer</artifactId>
     <packaging>jar</packaging>
 
-    <name>demo-smtp</name>
+    <name>demo-transfer</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -19,35 +19,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>5.0.0.Alpha2</version>
+            <groupId>com.example</groupId>
+            <artifactId>demo-mq</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>demo-utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>demo-repository</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>demo-mq</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.7</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 </project>

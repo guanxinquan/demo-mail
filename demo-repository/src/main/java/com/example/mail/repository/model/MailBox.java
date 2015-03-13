@@ -11,6 +11,7 @@ public class MailBox {
 
     private Integer userId;
 
+
     public Integer getId() {
         return id;
     }

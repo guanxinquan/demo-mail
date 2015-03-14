@@ -6,6 +6,8 @@ import java.util.Date;
  * Created by guanxinquan on 15-3-11.
  */
 public class Mail {
+
+
     private Integer id;
 
     private Integer size;
@@ -15,6 +17,16 @@ public class Mail {
     private String UIDL;
 
     private Date createDate;
+
+    public Mail(Integer size, Integer mailboxId, String UIDL) {
+        this.size = size;
+        this.mailboxId = mailboxId;
+        this.UIDL = UIDL;
+        this.createDate = new Date();
+    }
+
+    public Mail() {
+    }
 
     public Date getCreateDate() {
         return createDate;

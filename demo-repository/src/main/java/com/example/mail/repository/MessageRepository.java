@@ -4,6 +4,8 @@ import com.example.mail.repository.model.Message;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.mapping.StatementType;
 
 import java.util.Date;
 
@@ -12,12 +14,12 @@ import java.util.Date;
  */
 public interface MessageRepository {
 
-    @Insert("insert into message(header,body,create_date,update_date) values(#{header},#{body},#{createDate},#{updateData}) ")
-    public void createMessage(
+    @Insert("insert into message(header,body,create_date) values(#{header},#{body},#{createDate}) ")
+    @SelectKey(before = false, keyProperty = "id", resultType = Long.class, statementType = StatementType.STATEMENT, statement = "SELECT LAST_INSERT_ID() AS id")
+    public Long createMessage(
             @Param("header")String header,
             @Param("body")String body,
-            @Param("createDate")Date createDate,
-            @Param("updateDate")Date updateDate);
+            @Param("createDate")Date createDate);
 
     @Select("select header from message where id=#{id}")
     public String selectHeaderById(Long id);

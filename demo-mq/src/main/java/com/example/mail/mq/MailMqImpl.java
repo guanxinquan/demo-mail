@@ -30,6 +30,8 @@ public class MailMqImpl implements MailMq{
 
     @Override
     public Object receiveMessage() {
+
+        //return amqpTemplate.receive(queueName);
         return amqpTemplate.receiveAndConvert(queueName);
     }
 

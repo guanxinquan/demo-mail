@@ -16,10 +16,11 @@ import java.util.List;
 public interface MailRepository {
     public static final String TABLE_NAME = "mail";
 
-    @Insert("insert into "+TABLE_NAME+" (mailboxId,size,UIDL,create_date) values (#{mailboxId},#{size},#{UIDL},#{createDate})")
+    @Insert("insert into "+TABLE_NAME+" (mailboxId,size,message_id,UIDL,create_date) values (#{mailboxId},#{size},#{messageId},#{UIDL},#{createDate})")
     @SelectKey(before = false, keyProperty = "id", resultType = Long.class, statementType = StatementType.STATEMENT, statement = "SELECT LAST_INSERT_ID() AS id")
     public Integer createMail(@Param("mailboxId")Integer mailboxId,
                               @Param("size")Integer size,
+                              @Param("messageId") Long messageId,
                               @Param("UIDL")String UIDL,
                               @Param("createDate")Date createDate);
 

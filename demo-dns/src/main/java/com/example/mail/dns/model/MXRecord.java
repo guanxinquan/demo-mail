@@ -3,7 +3,7 @@ package com.example.mail.dns.model;
 /**
  * Created by guanxinquan on 15-3-14.
  */
-public class MXRecord {
+public class MXRecord implements Comparable<MXRecord> {
 
     private String name;
 
@@ -42,5 +42,10 @@ public class MXRecord {
 
     public void setChecked(boolean isChecked) {
         this.isChecked = isChecked;
+    }
+
+    @Override
+    public int compareTo(MXRecord o) {
+        return o.getPreference() - this.getPreference();
     }
 }

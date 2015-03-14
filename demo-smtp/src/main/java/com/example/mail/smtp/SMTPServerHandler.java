@@ -4,6 +4,7 @@ import com.example.mail.mq.MailMq;
 import com.example.mail.mq.MailMqFactory;
 import com.example.mail.mq.model.MailInfo;
 import com.example.mail.repository.*;
+import com.example.mail.repository.model.User;
 import com.example.mail.utils.MailUtils;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -51,6 +52,8 @@ public class SMTPServerHandler extends SimpleChannelInboundHandler<String> {
     private MailRepository mailRepository = RepositoryFactory.getRepository(MailRepository.class);
 
     private MessageRepository messageRepository = RepositoryFactory.getRepository(MessageRepository.class);
+
+    private DNSRepository dnsRepository = RepositoryFactory.getRepository(DNSRepository.class);
 
     private MailMq mailMq = MailMqFactory.getMailMq(MailMq.class);
 
@@ -194,15 +197,24 @@ public class SMTPServerHandler extends SimpleChannelInboundHandler<String> {
             if(rcpt == null || "".equals(rcpt)){
                 response("500 Error: bad syntax");
             }else{
+
+                if(userId == null){//no login user just accept rcpts local
+                    User user = userRepository.selectUserByName(rcpt);
+                    if(user == null){
+                        response("550 Unknown user: "+rcpt);
+                    }
+                }
                 tos.add(rcpt);
                 session = SMTPSession.RCPT;
                 response("250 Mail OK");
+
             }
         }
     }
 
     private void mailCommand(String msg) {
         from = parseAddress(msg);
+
         if(from == null){
             response("500 Error: bad syntax");
         }else{
@@ -217,8 +229,26 @@ public class SMTPServerHandler extends SimpleChannelInboundHandler<String> {
                     return;
                 }
             }
-            session = SMTPSession.MAIL;
-            response("250 Mail OK");
+
+            if(userId != null){//if login from must equal to authorized account
+                if(!userName.equals(from)){
+                    response("553 Mail from must equal authorized user");
+                    return;
+                }
+            }else {
+                String fromDomain = MailUtils.parseDomain(from);
+                String domain = dnsRepository.selectDnsByName(fromDomain);
+                if (fromDomain.equals(domain)) {//if is local domain, must check user account
+                    User user = userRepository.selectUserByName(from);
+                    if (user == null) {
+                        response("550 User not found:" + from);
+                        return;
+                    }
+                }
+
+                session = SMTPSession.MAIL;
+                response("250 Mail OK");
+            }
         }
     }
 

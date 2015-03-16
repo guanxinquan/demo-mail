@@ -36,7 +36,7 @@ public class TransferToRemote {
         List<MXRecord> records = dnsService.getMX(domain);
 
         if(records == null || records.size() < 1){
-            return rcpts;
+            return new ArrayList<String>();
         }
 
         MXRecord checkedRecord = null;
@@ -81,7 +81,7 @@ public class TransferToRemote {
                             pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Unpooled.wrappedBuffer(new byte[]{'\r', '\n'})));
                             pipeline.addLast(new StringEncoder());
                             pipeline.addLast(new StringDecoder());
-                            pipeline.addLast(new IdleStateHandler(10, 10, 10));
+                            pipeline.addLast(new IdleStateHandler(1000, 1000, 1000));
                             pipeline.addLast(handler);
                         }
                     });

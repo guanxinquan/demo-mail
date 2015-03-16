@@ -18,11 +18,7 @@ public interface MailRepository {
 
     @Insert("insert into "+TABLE_NAME+" (mailboxId,size,message_id,UIDL,create_date) values (#{mailboxId},#{size},#{messageId},#{UIDL},#{createDate})")
     @SelectKey(before = false, keyProperty = "id", resultType = Long.class, statementType = StatementType.STATEMENT, statement = "SELECT LAST_INSERT_ID() AS id")
-    public Integer createMail(@Param("mailboxId")Integer mailboxId,
-                              @Param("size")Integer size,
-                              @Param("messageId") Long messageId,
-                              @Param("UIDL")String UIDL,
-                              @Param("createDate")Date createDate);
+    public Integer createMail(Mail mail);
 
     @Select("select id,mailboxId,size,UIDL,create_date from "+ TABLE_NAME + " where mailboxId=#{mailboxId} order by create_date desc")
     public List<Mail> selectMailsByMailboxId(Integer mailboxId);

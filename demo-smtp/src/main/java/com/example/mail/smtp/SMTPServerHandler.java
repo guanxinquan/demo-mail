@@ -245,10 +245,9 @@ public class SMTPServerHandler extends SimpleChannelInboundHandler<String> {
                         return;
                     }
                 }
-
-                session = SMTPSession.MAIL;
-                response("250 Mail OK");
             }
+            session = SMTPSession.MAIL;
+            response("250 Mail OK");
         }
     }
 
@@ -314,6 +313,12 @@ public class SMTPServerHandler extends SimpleChannelInboundHandler<String> {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        ctx.close();
     }
 }
 

@@ -16,10 +16,7 @@ public interface MessageRepository {
 
     @Insert("insert into message(header,body,create_date) values(#{header},#{body},#{createDate}) ")
     @SelectKey(before = false, keyProperty = "id", resultType = Long.class, statementType = StatementType.STATEMENT, statement = "SELECT LAST_INSERT_ID() AS id")
-    public Long createMessage(
-            @Param("header")String header,
-            @Param("body")String body,
-            @Param("createDate")Date createDate);
+    public Long createMessage(Message message);
 
     @Select("select header from message where id=#{id}")
     public String selectHeaderById(Long id);

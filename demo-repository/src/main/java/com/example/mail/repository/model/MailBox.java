@@ -5,18 +5,27 @@ package com.example.mail.repository.model;
  */
 public class MailBox {
 
-    private Integer id;
+    private Long id;
 
     private String name;
 
-    private Integer userId;
+    private Long userId;
+
+    public MailBox(String name, Long userId) {
+        this.name = name;
+        this.userId = userId;
+    }
+
+    public MailBox() {
+
+    }
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -28,12 +37,11 @@ public class MailBox {
         this.name = name;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
-
 }

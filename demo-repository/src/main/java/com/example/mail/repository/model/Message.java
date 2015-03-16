@@ -13,9 +13,17 @@ public class Message {
 
     private String body;
 
-    private Date createDate;
+    private Date createDate = new Date();
 
-    private Date updateDate;
+    private Date updateDate =  new Date();
+
+    public Message(String header, String body) {
+        this.body = body;
+        this.header = header;
+    }
+
+    public Message() {
+    }
 
     public Long getId() {
         return id;
@@ -56,4 +64,7 @@ public class Message {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+
+
+
 }

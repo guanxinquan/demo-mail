@@ -90,6 +90,7 @@ public class TransferToRemoteHandler extends SimpleChannelInboundHandler<String>
         if(msg.startsWith("354")){
             session = TransferTransaction.DATA_TRAN;
             ctx.write(data);
+            System.err.println(data);
             writeCommand(".");
         }else{
             resetAndFinish();
@@ -128,7 +129,7 @@ public class TransferToRemoteHandler extends SimpleChannelInboundHandler<String>
             session = TransferTransaction.MAIL;
             writeCommand("mail from:<" + from + ">");
         }else if(msg.startsWith("250-")){//以250-开始的表示后面还有额外的信息
-            System.err.println(msg);
+           // System.err.println(msg);
         }else{
             resetAndFinish();
         }
@@ -151,6 +152,7 @@ public class TransferToRemoteHandler extends SimpleChannelInboundHandler<String>
     }
 
     private void writeCommand(String msg){
+        System.err.println(msg+MailUtils.LINE_END);
         ctx.write(msg+MailUtils.LINE_END);
     }
 

@@ -19,9 +19,9 @@ public interface MailBoxRepository {
 
     @Insert("insert into "+TABLE_NAME+" (name,userId) values (#{name},#{userId})")
     @SelectKey(before = false, keyProperty = "id", resultType = Long.class, statementType = StatementType.STATEMENT, statement = "SELECT LAST_INSERT_ID() AS id")
-    public Integer createMailbox(@Param("name")String name,@Param("userId")Integer userId);
+    public Integer createMailbox(MailBox mailBox);
 
     @Select("select id,name,userId from "+ TABLE_NAME + " where name=#{name} and userId = #{userId}")
-    public MailBox selectMailbox(@Param("name")String name,@Param("userId")Integer userId);
+    public MailBox selectMailbox(@Param("name")String name,@Param("userId")Long userId);
 
 }
